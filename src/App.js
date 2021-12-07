@@ -2,7 +2,9 @@ import './App.css';
 import UserSignupPage from './pages/UserSignupPage';
 import LoginPage from './pages/LoginPage';
 import ForgetPassword from './pages/ForgetPasswordPage';
+import ProfilePage from './pages/ProfilePage';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import UserCart from './pages/UserCart';
 
 
 function App() {
@@ -13,6 +15,8 @@ function App() {
           <Route path="/" exact component = {LoginPage} />
           <Route path="/sign-up" component = {UserSignupPage} />
           <Route path="/forget-password" component = {ForgetPassword} />
+          <Route path="/profile" component = {ProfilePage} />
+          <Route path="/user-cart" component = {UserCart} />
         </Switch>
       </div>
     </Router>
