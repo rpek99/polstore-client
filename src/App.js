@@ -5,6 +5,7 @@ import ForgetPassword from './pages/ForgetPasswordPage';
 import ProfilePage from './pages/ProfilePage';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import UserCart from './pages/UserCart';
+import HomePage from './pages/HomePage';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/forget-password" component = {ForgetPassword} />
           <Route path="/profile" component = {ProfilePage} />
           <Route path="/user-cart" component = {UserCart} />
+          <Route path="/home" component = {HomePage} />
         </Switch>
       </div>
     </Router>

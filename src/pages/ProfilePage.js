@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import React from 'react';
 import Navbar from '../Navbar';
 import Avatar from '@mui/material/Avatar';
-import { deepPurple } from '@mui/material/colors';
+import { blueGrey } from '@mui/material/colors';
 
 
 function ProfilePage() {
@@ -19,10 +19,11 @@ function ProfilePage() {
                     
                 >
                     <Avatar sx={{ 
-                        bgcolor: deepPurple[500], 
+                        bgcolor: blueGrey[900], 
                         width:150, 
                         height:150, 
-                        fontSize:'50px' 
+                        fontSize:'50px',
+                        marginTop: 2
                         }}
                     >
                         RP
@@ -71,7 +72,7 @@ function ProfilePage() {
                     <Button 
                         variant="contained" 
                         style={{minWidth:'150px'}} 
-                        sx={{bgcolor: deepPurple[500]}}
+                        sx={{bgcolor: blueGrey[900]}}
                     >
                         Update
                     </Button> 
