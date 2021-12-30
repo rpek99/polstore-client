@@ -6,10 +6,10 @@ import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import LoginIcon from '@mui/icons-material/Login';
 
 const theme = createTheme();
 
@@ -27,16 +27,25 @@ function LoginPage() {
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
+            {/* <Box  
+              display="flex" 
+              width={400} height={80} 
+              alignItems="center"
+              justifyContent="center"
+              sx = {{ fontSize: 25 , color: "white", backgroundColor: "#20232a", borderRadius: 5, marginTop: 8}}   
+            >
+              POLSTORE
+          </Box> */}
           <Box
             sx={{
-              marginTop: 8,
+              marginTop: 10,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <LockOutlinedIcon />
+            <Avatar sx={{ m: 1, bgcolor: "#46505A" }}>
+              <LoginIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
               Login
@@ -66,18 +75,18 @@ function LoginPage() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2 , backgroundColor: "#20232a"}}
               >
                 Login
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="/forget-password" variant="body2">
+                  <Link href="/forget-password" variant="body2" sx={{color: "black"}}>
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="/sign-up" variant="body2">
+                  <Link href="/sign-up" variant="body2" sx={{color: "black"}}>
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

@@ -42,13 +42,13 @@ function UserSignupPage() {
           <CssBaseline />
           <Box
             sx={{
-              marginTop: 8,
+              marginTop: 10,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <Avatar sx={{ m: 1, bgcolor: "#46505A"  }}>
               <AccountBoxIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
@@ -114,13 +114,13 @@ function UserSignupPage() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2, backgroundColor: "#20232a" }}
               >
                 Sign Up
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link href="/" variant="body2">
+                  <Link href="/" variant="body2" sx={{ color: "black"}}>
                     Already have an account? Sign in
                   </Link>
                 </Grid>

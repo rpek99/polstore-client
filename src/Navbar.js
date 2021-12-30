@@ -24,13 +24,13 @@ function Navbar() {
                     </Typography>
                 </Grid>
                 <Grid item>
-                    <Button variant="inherit" href="">Home</Button>
+                    <Button variant="inherit" href="/home">Home</Button>
                 </Grid>
                 <Grid item>
                     <Button variant="inherit" href="/profile">Profile</Button>
                 </Grid>
                 <Grid item>
-                    <Button variant="inherit" href="">User Cart</Button>
+                    <Button variant="inherit" href="/user-cart">User Cart</Button>
                 </Grid>
                 
             </Grid>

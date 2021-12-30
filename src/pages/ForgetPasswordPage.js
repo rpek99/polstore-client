@@ -29,13 +29,13 @@ function ForgetPassword() {
           <CssBaseline />
           <Box
             sx={{
-              marginTop: 8,
+              marginTop: 10,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <Avatar sx={{ m: 1, bgcolor: "#46505A"  }}>
                 <LockIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
@@ -56,12 +56,12 @@ function ForgetPassword() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2, backgroundColor: "#20232a" }}
               >
                 Send Mail
               </Button>
               <Grid container justifyContent="flex-end">
-                <Link href="/" variant="body2">
+                <Link href="/" variant="body2" sx={{ color: "black"}}>
                     {"Return login page"}
                 </Link>
               </Grid>   

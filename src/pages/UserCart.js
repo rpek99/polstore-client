@@ -1,5 +1,4 @@
-import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Container, Divider, Grid, IconButton, Typography } from '@mui/material';
-import { red } from '@mui/material/colors';
+import { Button, Card, CardContent, CardHeader, CardMedia, Container, Divider, Grid, IconButton, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
 import Navbar from '../Navbar';
