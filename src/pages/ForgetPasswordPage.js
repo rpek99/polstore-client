@@ -3,13 +3,13 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockIcon from '@mui/icons-material/Lock';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {Link} from "react-router-dom";
 
 const theme = createTheme();
 
@@ -61,8 +61,8 @@ function ForgetPassword() {
                 Send Mail
               </Button>
               <Grid container justifyContent="flex-end">
-                <Link href="/" variant="body2" sx={{ color: "black"}}>
-                    {"Return login page"}
+                <Link to="/">
+                    Return login page
                 </Link>
               </Grid>   
             </Box>

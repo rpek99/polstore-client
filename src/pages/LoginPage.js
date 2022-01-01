@@ -3,13 +3,13 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import LoginIcon from '@mui/icons-material/Login';
+import {Link} from "react-router-dom";
 
 const theme = createTheme();
 
@@ -81,13 +81,13 @@ function LoginPage() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="/forget-password" variant="body2" sx={{color: "black"}}>
+                  <Link to="/forget-password">
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="/sign-up" variant="body2" sx={{color: "black"}}>
-                    {"Don't have an account? Sign Up"}
+                  <Link to="/sign-up">
+                    Don't have an account? Sign Up
                   </Link>
                 </Grid>
               </Grid>

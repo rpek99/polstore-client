@@ -5,32 +5,39 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Grid } from '@mui/material';
+import {Link} from "react-router-dom";
 
 
 function Navbar() {
 
     return (
-      <Box sx={{ flexGrow: 1 }} >
-        <AppBar position="static" style={{ backgroundColor:"#20232a"}} >
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="fixed" style={{ backgroundColor:"#20232a"}} >
           <Toolbar>
             <Grid
-                justify="space-between" // Add it here :)
+                justify="space-between"
                 container 
                 spacing={1}
             >
-                <Grid item>
-                    <Typography variant="h6" component="div" >
+                <Grid item >
+                    <Typography variant="h5" component="div" >
                         POLSTRORE
                     </Typography>
                 </Grid>
                 <Grid item>
-                    <Button variant="inherit" href="/home">Home</Button>
+                    <Link to="/home" style={{ textDecoration: 'none', color: 'white', }}>
+                      <Button variant="inherit">Home</Button>
+                    </Link>
                 </Grid>
                 <Grid item>
-                    <Button variant="inherit" href="/profile">Profile</Button>
+                    <Link to="/profile" style={{ textDecoration: 'none', color: 'white', }}>
+                      <Button variant="inherit">Profile</Button>
+                    </Link>
                 </Grid>
                 <Grid item>
-                    <Button variant="inherit" href="/user-cart">User Cart</Button>
+                    <Link to="/user-cart" style={{ textDecoration: 'none', color: 'white', }}>
+                      <Button variant="inherit">Cart</Button>
+                    </Link>
                 </Grid>
                 
             </Grid>

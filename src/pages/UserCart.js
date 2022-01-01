@@ -14,7 +14,7 @@ function UserCart() {
                 justify="center" 
                 alignItems="center" 
                 direction="row"
-                style={{ marginTop: 15}}
+                style={{ marginTop: 80}}
                 
             >
                 <Grid item xs={8}>         
