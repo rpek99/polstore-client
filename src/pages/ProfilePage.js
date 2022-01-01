@@ -15,8 +15,7 @@ function ProfilePage() {
                     justify="center" 
                     alignItems="center" 
                     direction="column"
-                    style={{ marginTop: 15}}
-                    
+                    style={{ marginTop: 80, marginBottom: 100}} 
                 >
                     <Avatar sx={{ 
                         bgcolor: blueGrey[900], 
@@ -63,9 +62,9 @@ function ProfilePage() {
                         <div>
                             <TextField 
                                 required
-                                id = "address"
-                                defaultValue="Üsküdar/İstanbul"
-                                label="Address"
+                                id = "phoneNumber"
+                                defaultValue="0535 549 75 05"
+                                label="Phone Number"
                             />
                         </div>            
                     </Box>

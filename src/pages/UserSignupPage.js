@@ -3,13 +3,13 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {Link} from "react-router-dom";
 
 
 const theme = createTheme();
@@ -120,7 +120,7 @@ function UserSignupPage() {
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link href="/" variant="body2" sx={{ color: "black"}}>
+                  <Link to="/">
                     Already have an account? Sign in
                   </Link>
                 </Grid>
