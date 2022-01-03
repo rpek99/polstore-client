@@ -1,8 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
@@ -10,31 +9,46 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {Link} from "react-router-dom";
+import * as Yup from "yup";
+import "yup-phone";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Controller, useForm } from "react-hook-form";
+import { useSnackbar } from "notistack";
+import FormInput from '../components/common/FormInput';
+import PhoneInput from '../components/common/PhoneInput';
 
 
 const theme = createTheme();
 
-function UserSignupPage() {
+export const Schema = Yup.object().shape({
+  firstName: Yup.string().required("Cannot be empty"),
+  lastName: Yup.string().required("Cannot be empty"),
+  email: Yup.string()
+    .email("Pleas enter valid e-mail address")
+    .required("Cannot be empty"),
+  mobilePhone: Yup.string()
+    .required("Cannot be empty")
+    .phone("TR", true, "Geçerli bir numara giriniz"),
+  password: Yup.string()
+    .required("Cannot be empty")
+    .min(8, "Password must has minimum 8 character"),
+  confirmPassword: Yup.string()
+    .required("Cannot be empty")
+    .oneOf([Yup.ref("password"), null], "Passwords doesn't match"),
+});
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
+const UserSignupPage = () => {
+  // const { enqueueSnackbar } = useSnackbar();
 
-        mapper(data);
-        
-        console.log({
-          email: data.get('email'),
-          password: data.get('password'),
-        });
-      };
+  const { handleSubmit, control } = useForm({
+    resolver: yupResolver(Schema),
+  });
 
-    const mapper = (data) => {
-      var object = {};
-      data.forEach(function(value, key) {
-        object[key] = value;
-      })
-      console.log(object);
-    }
+  const onSubmit = (registerForm) => {
+    const formData = new FormData();
+
+    console.log(registerForm);
+  }
 
     return (
         <ThemeProvider theme={theme}>
@@ -54,77 +68,84 @@ function UserSignupPage() {
             <Typography component="h1" variant="h5">
               Sign up
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    autoComplete="given-name"
-                    name="firstName"
-                    required
-                    fullWidth
-                    id="firstName"
-                    label="First Name"
-                    autoFocus
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="lastName"
-                    label="Last Name"
-                    name="lastName"
-                    autoComplete="family-name"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="new-password"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    name="repeat-password"
-                    label="Password Again"
-                    type="password"
-                    id="repeat-password"
-                    autoComplete="new-password"
-                  />
-                </Grid>
-              </Grid>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2, backgroundColor: "#20232a" }}
+            <Box sx={{ mt: 3 }}>
+              <form
+                noValidate
+                onSubmit={handleSubmit(onSubmit)}
+                encType='multipart/form-data'
               >
-                Sign Up
-              </Button>
-              <Grid container justifyContent="flex-end">
-                <Grid item>
-                  <Link to="/">
-                    Already have an account? Sign in
-                  </Link>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <Controller
+                      name='firstName'
+                      control={control}
+                      render={(props) => (
+                        <FormInput {...props} required label="Name"/>
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Controller
+                      name='lastName'
+                      control={control}
+                      render={(props) => (
+                        <FormInput {...props} required label="Surname"/>
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Controller
+                      name='email'
+                      control={control}
+                      render={(props) => (
+                        <FormInput {...props} required label="Email Address"/>
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Controller
+                      name="mobilePhone"
+                      control={control}
+                      render={(props) => (
+                        <PhoneInput placeholder="Phone Number*:" {...props} />
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Controller
+                      name='password'
+                      control={control}
+                      render={(props) => (
+                        <FormInput {...props} type="password" required label="Password"/>
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Controller
+                      name='confirmPassword'
+                      control={control}
+                      render={(props) => (
+                        <FormInput {...props} type="password" required label="Confirm Password"/>
+                      )}
+                    />
+                  </Grid>
                 </Grid>
-              </Grid>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2, backgroundColor: "#20232a" }}
+                >
+                  Sign Up
+                </Button>
+                <Grid container justifyContent="flex-end">
+                  <Grid item>
+                    <Link to="/">
+                      Already have an account? Sign in
+                    </Link>
+                  </Grid>
+                </Grid>
+              </form>
             </Box>
           </Box>
         </Container>
