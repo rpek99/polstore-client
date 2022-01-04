@@ -80,11 +80,7 @@ function LoginPage() {
                 Login
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link to="/forget-password">
-                    Forgot password?
-                  </Link>
-                </Grid>
+                <Grid item xs/>
                 <Grid item>
                   <Link to="/sign-up">
                     Don't have an account? Sign Up

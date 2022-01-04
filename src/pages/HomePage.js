@@ -4,10 +4,6 @@ function HomePage() {
     return (
         <>
             <Navbar/>
-        
-        
-        
-        
         </>
     )
 }

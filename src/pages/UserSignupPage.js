@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -8,14 +8,16 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import * as Yup from "yup";
 import "yup-phone";
+import axios from "axios";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
-import { useSnackbar } from "notistack";
+import { useSnackbar} from "notistack";
 import FormInput from '../components/common/FormInput';
 import PhoneInput from '../components/common/PhoneInput';
+import parsePhoneNumber from "libphonenumber-js";
 
 
 const theme = createTheme();
@@ -28,7 +30,7 @@ export const Schema = Yup.object().shape({
     .required("Cannot be empty"),
   mobilePhone: Yup.string()
     .required("Cannot be empty")
-    .phone("TR", true, "Geçerli bir numara giriniz"),
+    .phone("TR", true, "Please enter a valid number"),
   password: Yup.string()
     .required("Cannot be empty")
     .min(8, "Password must has minimum 8 character"),
@@ -38,8 +40,9 @@ export const Schema = Yup.object().shape({
 });
 
 const UserSignupPage = () => {
-  // const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
+  let history = useHistory();
   const { handleSubmit, control } = useForm({
     resolver: yupResolver(Schema),
   });
@@ -47,8 +50,44 @@ const UserSignupPage = () => {
   const onSubmit = (registerForm) => {
     const formData = new FormData();
 
-    console.log(registerForm);
-  }
+    delete registerForm["confirmPassword"];
+
+    const phoneNumber = parsePhoneNumber("+" + registerForm["mobilePhone"]);
+    if (phoneNumber) {
+      registerForm["mobilePrefix"] = parseInt(phoneNumber.countryCallingCode);
+      registerForm["mobilePhone"] = phoneNumber.nationalNumber;
+    }
+
+
+    const registerFormData = new Blob([JSON.stringify(registerForm)], {
+      type: "application/json",
+    });
+
+    formData.append("user", registerFormData);
+
+
+    axios
+        .post('/users/register', formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then(() => {
+          enqueueSnackbar(
+            "Register completed successfully",
+            {
+              variant: "success",
+            }
+          );
+          history.push({
+            pathname: "/",
+            state: { verificationPending: true },
+          });
+        })
+        .catch((err) => 
+           enqueueSnackbar(err?.response?.data, {
+             variant: "error",
+           })   
+        );
+  };
 
     return (
         <ThemeProvider theme={theme}>
@@ -151,5 +190,5 @@ const UserSignupPage = () => {
         </Container>
       </ThemeProvider>
     )
-}
+};
 export default UserSignupPage;
