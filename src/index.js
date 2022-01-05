@@ -7,7 +7,6 @@ import { SnackbarProvider } from "notistack";
 
 axios.defaults.baseURL = "http://localhost:5000/api/v1";
 
-
 ReactDOM.render(
   <React.StrictMode>
     <SnackbarProvider>

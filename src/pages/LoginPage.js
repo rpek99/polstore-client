@@ -54,7 +54,7 @@ const LoginPage = () => {
     });
 
     axios
-      .post('auth/authentication', {
+      .post('/auth/authentication', {
           'email': loginFormData["email"],
           'password': loginFormData["password"]
       },
