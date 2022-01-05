@@ -2,7 +2,6 @@ import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -10,35 +9,89 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import LoginIcon from '@mui/icons-material/Login';
 import {Link} from "react-router-dom";
+import FormInput from '../components/common/FormInput';
+import { Controller, useForm } from "react-hook-form";
+import {useHistory} from "react-router-dom";
+import * as Yup from "yup";
+import axios from "axios";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useSnackbar} from "notistack";
 
-const theme = createTheme();
 
-function LoginPage() {
-    const handleSubmit = (event) => {
-      event.preventDefault();
-      const data = new FormData(event.currentTarget);
-      console.log({
-        email: data.get('email'),
-        password: data.get('password'),
-      });
-    };
-  
+const theme = createTheme({
+  typography: {
+    "fontFamily":"Roboto",
+    "fontSize": 14,
+    "fontWeightLight": 300,
+    "fontWeightRegular": 400,
+    "fontWeightMedium": 500
+   }
+});
+
+export const Schema = Yup.object().shape({
+  email: Yup.string()
+    .email("Pleas enter valid e-mail address")
+    .required("Cannot be empty"),
+  password: Yup.string()
+    .required("Cannot be empty")
+});
+
+
+const LoginPage = () => {
+  const { enqueueSnackbar } = useSnackbar();
+
+  const { handleSubmit, control } = useForm({
+    resolver: yupResolver(Schema),
+  });
+
+  let history = useHistory();
+
+
+  const onSubmit = (loginForm) => {
+
+    const loginFormData = new Blob([JSON.stringify(loginForm)], {
+      type: "application/json",
+    });
+
+    axios
+      .post('auth/authentication', {
+          'email': loginFormData["email"],
+          'password': loginFormData["password"]
+      },
+      {
+        headers: { 'Content-Type': 'application/json' },
+      })
+      .then(() => {
+        enqueueSnackbar(
+          "Login Successful",
+          {
+            variant: "success",
+          }
+        );
+        history.push({
+          pathname: "/home",
+          state: { verificationPending: true },
+        });
+      })
+      .catch((err) =>
+           enqueueSnackbar(err?.response?.data, {
+             variant: "error",
+           })
+        );
+  }
+
+
     return (
-      <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
-            {/* <Box  
-              display="flex" 
-              width={400} height={80} 
-              alignItems="center"
-              justifyContent="center"
-              sx = {{ fontSize: 25 , color: "white", backgroundColor: "#20232a", borderRadius: 5, marginTop: 8}}   
-            >
+          <ThemeProvider theme={theme}>
+            <Typography align='center' variant='h3' sx={{ marginTop: 7}}>
               POLSTORE
-          </Box> */}
+            </Typography>
+          </ThemeProvider>
           <Box
             sx={{
-              marginTop: 10,
+              marginTop: 3,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -50,47 +103,51 @@ function LoginPage() {
             <Typography component="h1" variant="h5">
               Login
             </Typography>
-            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 , backgroundColor: "#20232a"}}
+            <Box noValidate sx={{ mt: 1 }}>
+              <form
+                noValidate
+                onSubmit={handleSubmit(onSubmit)}
               >
-                Login
-              </Button>
-              <Grid container>
-                <Grid item xs/>
-                <Grid item>
-                  <Link to="/sign-up">
-                    Don't have an account? Sign Up
-                  </Link>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Controller
+                      name='email'
+                      control={control}
+                      render={(props) => (
+                        <FormInput {...props} required label="Email Address"/>
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Controller
+                      name='password'
+                      control={control}
+                      render={(props) => (
+                        <FormInput {...props} required label="Password" type="password"/>
+                      )}
+                    />
+                  </Grid>
                 </Grid>
-              </Grid>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 , backgroundColor: "#20232a"}}
+                >
+                  Login
+                </Button>
+                <Grid container>
+                  <Grid item xs/>
+                  <Grid item>
+                    <Link to="/sign-up">
+                      Don't have an account? Sign Up
+                    </Link>
+                  </Grid>
+                </Grid>
+              </form>
             </Box>
           </Box>
         </Container>
-      </ThemeProvider>
     );
 }
 
