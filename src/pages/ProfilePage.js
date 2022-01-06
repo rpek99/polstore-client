@@ -4,12 +4,9 @@ import React from 'react';
 import Navbar from '../Navbar';
 import Avatar from '@mui/material/Avatar';
 import { blueGrey } from '@mui/material/colors';
-import AuthenticationService from '../services/AuthenticationService';
 
 
 function ProfilePage() {
-
-    const user = AuthenticationService.getLoggedInUser();
 
     return (
         <>
