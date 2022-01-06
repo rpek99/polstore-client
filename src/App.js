@@ -5,6 +5,7 @@ import ProfilePage from './pages/ProfilePage';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import UserCart from './pages/UserCart';
 import HomePage from './pages/HomePage';
+import MyProductsPage from './pages/MyProductsPage'; 
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/profile" component = {ProfilePage} />
           <Route path="/user-cart" component = {UserCart} />
           <Route path="/home" component = {HomePage} />
+          <Route path="/my-products" component={MyProductsPage} />
         </Switch>
       </div>
     </Router>

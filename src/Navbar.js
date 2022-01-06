@@ -51,12 +51,14 @@ function Navbar() {
                     <Link to="/user-cart" style={{ textDecoration: 'none', color: 'white', }}>
                       <Button variant="inherit">Cart</Button>
                     </Link>
-                </Grid>
-                
+                </Grid>  
+                <Grid item>
+                    <Link to="/my-products" style={{ textDecoration: 'none', color: 'white', }}>
+                      <Button variant="inherit">My Products</Button>
+                    </Link>
+                </Grid>              
             </Grid>
-
-            <Button variant="inherit" href="/">Logout</Button>
-            
+            <Button variant="inherit" href="/">Logout</Button>       
           </Toolbar>
         </AppBar>
       </Box>

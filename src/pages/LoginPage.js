@@ -49,29 +49,24 @@ const LoginPage = () => {
 
   const onSubmit = (loginForm) => {
 
-    const loginFormData = new Blob([JSON.stringify(loginForm)], {
-      type: "application/json",
-    });
-
+    
     axios
       .post('/auth/authentication', {
-          'email': loginFormData["email"],
-          'password': loginFormData["password"]
+          'email': loginForm["email"],
+          'password': loginForm["password"]
       },
       {
         headers: { 'Content-Type': 'application/json' },
       })
       .then(() => {
+        setTimeout(() => history.push("/home"), 900);
         enqueueSnackbar(
           "Login Successful",
           {
             variant: "success",
+            autoHideDuration: 1500,
           }
         );
-        history.push({
-          pathname: "/home",
-          state: { verificationPending: true },
-        });
       })
       .catch((err) =>
            enqueueSnackbar(err?.response?.data, {
@@ -79,7 +74,6 @@ const LoginPage = () => {
            })
         );
   }
-
 
     return (
         <Container component="main" maxWidth="xs">
