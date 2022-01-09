@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage';
 import MyProductsPage from './pages/MyProductsPage'; 
 import ProfileUpdatePage from './pages/ProfileUpdatePage'; 
 import AddProductPage from './pages/AddProductPage'; 
+import MailBoxPage from './pages/MailBoxPage';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/my-products" component={MyProductsPage} />
           <Route path="/profile-update" component={ProfileUpdatePage} />
           <Route path="/add-product" component={AddProductPage} />
+          <Route path="/mail-box" component={MailBoxPage} />
         </Switch>
       </div>
     </Router>

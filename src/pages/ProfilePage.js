@@ -30,9 +30,10 @@ function ProfilePage() {
                 setFirstName(res.data.firstName)
                 setLastName(res.data.lastName)
                 setMobilePhone(res.data.mobilePhone);
+                setPhoneNumber(`(${mobilePhone.slice(0,3)}) ${mobilePhone.slice(3,6)} ${mobilePhone.slice(6,8)} ${mobilePhone.slice(8.10)}`);
             })
-            .then(() => setPhoneNumber("("+mobilePhone.slice(0,3)+") "+mobilePhone.slice(3,6)+" "+mobilePhone.slice(6,8)+" "+mobilePhone.slice(8.10)))
     });
+
     
 
     return (
@@ -58,7 +59,7 @@ function ProfilePage() {
                     >
                         {firstName.charAt(0) + lastName.charAt(0)}
                     </Avatar>
-                    <Card  sx={{ minHeight: 310, minWidth: 390, marginTop: 8, backgroundColor:"#eeeeee" }}>
+                    <Card  sx={{ minHeight: 310, minWidth: 390, marginTop: 8, backgroundColor:"#f5f5f5" }}>
                         <CardContent>
                             <Typography variant='h5'>
                                 First Name: {firstName}
