@@ -5,6 +5,9 @@ import ProfilePage from './pages/ProfilePage';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import UserCart from './pages/UserCart';
 import HomePage from './pages/HomePage';
+import MyProductsPage from './pages/MyProductsPage'; 
+import ProfileUpdatePage from './pages/ProfileUpdatePage'; 
+import AddProductPage from './pages/AddProductPage'; 
 
 
 function App() {
@@ -17,6 +20,9 @@ function App() {
           <Route path="/profile" component = {ProfilePage} />
           <Route path="/user-cart" component = {UserCart} />
           <Route path="/home" component = {HomePage} />
+          <Route path="/my-products" component={MyProductsPage} />
+          <Route path="/profile-update" component={ProfileUpdatePage} />
+          <Route path="/add-product" component={AddProductPage} />
         </Switch>
       </div>
     </Router>

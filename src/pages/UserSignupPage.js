@@ -67,7 +67,7 @@ const UserSignupPage = () => {
 
 
     axios
-        .post('/users/register', formData, {
+        .post('/auth/register', formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then(() => {

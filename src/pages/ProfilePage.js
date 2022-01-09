@@ -1,15 +1,46 @@
-import { Button, Grid, TextField } from '@mui/material';
-import Box from '@mui/material/Box';
-import React from 'react';
+import { Button, Grid, Typography } from '@mui/material';
+import React, {useEffect, useState} from 'react';
 import Navbar from '../Navbar';
 import Avatar from '@mui/material/Avatar';
 import { blueGrey } from '@mui/material/colors';
+import axios from "axios";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import Container from '@mui/material/Container';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import {Link} from "react-router-dom";
 
+const theme = createTheme();
 
 function ProfilePage() {
+
+   const [email, setEmail] = useState("");
+   const [firstName, setFirstName] = useState("");
+   const [lastName, setLastName] = useState("");
+   const [mobilePhone, setMobilePhone] = useState("");
+   const [phoneNumber, setPhoneNumber] = useState("");
+
+
+    useEffect(() => {
+        axios
+            .get("users/getUser?userId=" +localStorage.getItem("currentUser"))
+            .then((res) => {
+                setEmail(res.data.email)
+                setFirstName(res.data.firstName)
+                setLastName(res.data.lastName)
+                setMobilePhone(res.data.mobilePhone);
+            })
+            .then(() => setPhoneNumber("("+mobilePhone.slice(0,3)+") "+mobilePhone.slice(3,6)+" "+mobilePhone.slice(6,8)+" "+mobilePhone.slice(8.10)))
+    });
+    
+
     return (
         <>
             <Navbar/>
+            <ThemeProvider theme={theme}>
+            <Container component="main" maxWidth="xs">
+            <CssBaseline />
                 <Grid 
                     container 
                     justify="center" 
@@ -25,59 +56,40 @@ function ProfilePage() {
                         marginTop: 2
                         }}
                     >
-                        RP
+                        {firstName.charAt(0) + lastName.charAt(0)}
                     </Avatar>
-                    <Box
-                        component="form"
-                        sx={{
-                            '& .MuiTextField-root': { m: 3, width: '70ch', top:"5px", },
-                        }}
-                        noValidate
-                        autoComplete="off"      
-                    >
-                        <div>
-                            <TextField 
-                                required
-                                id = "name"
-                                defaultValue="Rüstem"
-                                label="Name"
-                            />
-                        </div>
-                        <div>
-                            <TextField 
-                                required
-                                id = "surname"
-                                defaultValue="Pek"
-                                label="SurName"
-                            />
-                        </div>
-                        <div>
-                            <TextField 
-                                required
-                                id = "email"
-                                defaultValue="rpek@st.medipol.edu.tr"
-                                label="E-mail"
-                            />
-                        </div>    
-                        <div>
-                            <TextField 
-                                required
-                                id = "phoneNumber"
-                                defaultValue="0535 549 75 05"
-                                label="Phone Number"
-                            />
-                        </div>            
-                    </Box>
-                    <Button 
-                        variant="contained" 
-                        style={{minWidth:'150px'}} 
-                        sx={{bgcolor: blueGrey[900]}}
-                    >
-                        Update
-                    </Button> 
+                    <Card  sx={{ minHeight: 310, minWidth: 390, marginTop: 8, backgroundColor:"#eeeeee" }}>
+                        <CardContent>
+                            <Typography variant='h5'>
+                                First Name: {firstName}
+                            </Typography>
+                            <Typography variant='h5' sx={{ marginTop: 2}}>
+                                Last Name: {lastName}
+                            </Typography>
+                            <Typography variant='h5' sx={{ marginTop: 2}}>
+                                Email: {email}
+                            </Typography>
+                            <Typography variant='h5' sx={{ marginTop: 2}}>
+                                Phone Number: {phoneNumber}
+                            </Typography>
+                        </CardContent>
+                        <Typography align='center'>
+                          <Link to="/profile-update" style={{ textDecoration: 'none', color: 'white', }}>
+                            <Button 
+                                variant="contained" 
+                                style={{minWidth:'150px'}} 
+                                sx={{bgcolor: blueGrey[900], marginTop: 5}} 
+                            >
+                                Update Informations
+                            </Button>
+                          </Link>
+                        </Typography>
+                    </Card>
                 </Grid>
+            </Container>
+            </ThemeProvider>
         </>
-    )
+    );
 }
 
 export default ProfilePage;
