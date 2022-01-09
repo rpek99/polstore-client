@@ -1,5 +1,5 @@
-import { Button, Card, CardContent, CardHeader, CardMedia, Container, Divider, Grid, IconButton, Tooltip, Typography } from '@mui/material';
-import { Box, width } from '@mui/system';
+import { Card, CardContent, CardHeader, CardMedia, Divider, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box } from '@mui/system';
 import React from 'react';
 import Navbar from '../Navbar';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';

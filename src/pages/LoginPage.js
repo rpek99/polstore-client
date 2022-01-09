@@ -51,14 +51,16 @@ const LoginPage = () => {
 
     
     axios
-      .post('/auth/authentication', {
+      .post('/auth/login', {
           'email': loginForm["email"],
           'password': loginForm["password"]
       },
       {
         headers: { 'Content-Type': 'application/json' },
       })
-      .then(() => {
+      .then((result) => {localStorage.setItem("tokenKey", result.data.message);
+                         localStorage.setItem("currentUser", result.data.userId)})  
+      .then(() => { 
         setTimeout(() => history.push("/home"), 900);
         enqueueSnackbar(
           "Login Successful",

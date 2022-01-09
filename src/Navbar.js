@@ -21,6 +21,11 @@ const theme = createTheme({
 
 function Navbar() {
 
+  const onClick = () => {
+    localStorage.removeItem("currentUser")
+    localStorage.removeItem("tokenKey")
+  }
+
     return (
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="fixed" style={{ backgroundColor:"#20232a"}} >
@@ -56,9 +61,14 @@ function Navbar() {
                     <Link to="/my-products" style={{ textDecoration: 'none', color: 'white', }}>
                       <Button variant="inherit">My Products</Button>
                     </Link>
-                </Grid>              
+                </Grid>    
+                <Grid item>
+                    <Link to="/add-product" style={{ textDecoration: 'none', color: 'white', }}>
+                      <Button variant="inherit">Add Product</Button>
+                    </Link>
+                </Grid>          
             </Grid>
-            <Button variant="inherit" href="/">Logout</Button>       
+            <Button onClick={onClick} variant="inherit" href="/">Logout</Button>       
           </Toolbar>
         </AppBar>
       </Box>
