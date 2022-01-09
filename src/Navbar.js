@@ -7,6 +7,9 @@ import Button from '@mui/material/Button';
 import { Grid } from '@mui/material';
 import {Link} from "react-router-dom";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import EmailIcon from '@mui/icons-material/Email';
+import LogoutIcon from '@mui/icons-material/Logout';
+import Badge from '@mui/material/Badge';
 
 const theme = createTheme({
   typography: {
@@ -43,7 +46,7 @@ function Navbar() {
                   </ThemeProvider>
                 </Grid>
                 <Grid item>
-                    <Link to="/home" style={{ textDecoration: 'none', color: 'white', }}>
+                    <Link to="/home" style={{ textDecoration: 'none', color: 'white', marginLeft: 10}}>
                       <Button variant="inherit">Home</Button>
                     </Link>
                 </Grid>
@@ -68,7 +71,12 @@ function Navbar() {
                     </Link>
                 </Grid>          
             </Grid>
-            <Button onClick={onClick} variant="inherit" href="/">Logout</Button>       
+            <Link to="mail-box">
+              <Button variant="inherit" startIcon={<Badge badgeContent={4} color='secondary'><EmailIcon/></Badge>} sx={{ color: "white"}} >Inbox</Button>
+            </Link>
+            <Button startIcon={<LogoutIcon />} sx={{ marginLeft: 2}} onClick={onClick} variant="inherit" href="/">
+              Logout
+            </Button>       
           </Toolbar>
         </AppBar>
       </Box>
