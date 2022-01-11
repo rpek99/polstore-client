@@ -1,12 +1,77 @@
 import { Card, CardContent, CardHeader, CardMedia, Divider, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import React from 'react';
+import {React, useEffect, useState} from 'react';
 import Navbar from '../Navbar';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import SendIcon from '@mui/icons-material/Send';
+import axios from 'axios';
+import { useSnackbar} from "notistack";
 
 
 function UserCart() {
+    const { enqueueSnackbar } = useSnackbar();
+
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        axios
+            .get("carts/getCartProducts?userId=" +localStorage.getItem("currentUser"))
+            .then((res) => {
+                setProducts(res.data);
+            })
+    }, [])
+
+    const onDelete = ((productId) => {
+        axios
+            .post("carts/removeFromCart", {
+                "userId": localStorage.getItem("currentUser"),
+                "productId": productId
+            })
+            .then(() => {
+                enqueueSnackbar(
+                    "Product Removed From Your Cart Successfully",
+                    {
+                      variant: "success",
+                      autoHideDuration: 2000,
+                    }
+                  );
+            })
+            .then(() => {
+                axios
+                    .get("carts/getCartProducts?userId=" +localStorage.getItem("currentUser"))
+                    .then((res) => {
+                        setProducts(res.data);
+                    })
+            })
+            .catch((err) =>
+                enqueueSnackbar("Something Went Wrong", {
+                    variant: "error",
+                })
+            );
+    })
+
+    const onRequest = (productId) => {
+        axios
+            .post("request/createMessage", {
+                "userId": localStorage.getItem("currentUser"),
+                "productId": productId
+            })
+            .then(() => {
+                enqueueSnackbar(
+                    "Send Request Successfully",
+                    {
+                      variant: "success",
+                      autoHideDuration: 2000,
+                    }
+                  );
+            })
+            .catch((err) => {
+                enqueueSnackbar("Something Went Wrong", {
+                    variant: "error",
+                })
+            })
+    }
+
     return (
         <div>
             <Navbar/>
@@ -17,30 +82,30 @@ function UserCart() {
               direction="column"
               style={{ marginTop: 80, marginBottom: 100}} 
             >
-                <Grid item xs={8}>         
-                    <Card sx={{ display: 'flex', margin: 5, width: '90%', maxHeight: "600px", maxWidth: "800px"}}>
+              {products.length ?     
+                <Grid item xs={8}>
+                  {products.map((product) => (         
+                    <Card key={product.id} sx={{ display: 'flex', margin: 5, width: '90%', maxHeight: "600px", maxWidth: "800px"}}>
                         <CardMedia
                             component="img"
                             sx={{ width: 300, height: 200, }}
-                            image="https://cwsmgmt.corsair.com/landing/home/images/Corsair_iCue_Room_Rainbow_Explore_Static-resized.jpg"
+                            image={product.productImageUrl}
                             alt="Live from space album cover"
                         />
                         <Box sx={{ display: 'flex', flexDirection: 'column', width: 400}}>
                             <CardContent sx={{ flex: '1 0 auto' }}>
                                 <Typography component="div" variant="h5">
-                                    Casper Excalibur Intel Core i5-11400F 
+                                    {product.productName}  
                                 </Typography>
                                 <Typography variant="h5" color="text.secondary" component="div">
-                                    Mac Millers
+                                    {product.user.firstName+" "+product.user.lastName}
                                 </Typography>
                                 <Typography variant="h8" color="text.secondary" component="div">
-                                    İşlemci Tipi:Intel Core i5 2500Ekran Kartı Bellek Tipi:Onboard İşlemci
-                                    Nesil:2.NesilEkran Kartı Kapasitesi:Onboard İşlemci Numarası:2500Ekran Kartı
-                                    Tipi:Onboard Temel İşlemci
+                                    {product.productDetail}
                                 </Typography> 
                                 <Divider style={{ margin: 10}}/>
                                     <Typography variant="h6" color="text.secondary" component="div">
-                                        3000 TL
+                                        {product.productPrice+" TL" }
                                     </Typography>    
                             </CardContent>
                         </Box>  
@@ -50,71 +115,30 @@ function UserCart() {
                                     <Grid item >
                                         <Tooltip title="Request">
                                             <IconButton>
-                                                <SendIcon/>
+                                                <SendIcon onClick={() => onRequest(product.id)}/>
                                             </IconButton> 
                                         </Tooltip> 
                                     </Grid>
                                     <Grid item >
                                         <Tooltip title="Remove">
                                             <IconButton>
-                                                <RemoveCircleIcon/>
+                                                <RemoveCircleIcon onClick={() => onDelete(product.id)}/>
                                             </IconButton> 
                                         </Tooltip> 
                                     </Grid>
                                 </Grid>
                             }   
                         />
-                    </Card>
-
-                    <Card sx={{ display: 'flex', margin: 5, width: '90%', maxHeight: "800px", maxWidth: "800px"}}>
-                        <CardMedia
-                            component="img"
-                            sx={{ width: 300, height: 200 }}
-                            image="https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/MWP22?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1591634795000"
-                            alt="Live from space album cover"
-                        />
-                        <Box sx={{ display: 'flex', flexDirection: 'column', width: 400 }}>
-                            <CardContent sx={{ flex: '1 0 auto' }}>
-                                <Typography component="div" variant="h5">
-                                    Live From Space 
-                                </Typography>
-                                <Typography variant="h5" color="text.secondary" component="div">
-                                    Mac Millers
-                                </Typography>
-                                <Typography variant="h8" color="text.secondary" component="div">
-                                    Yeni AirPods, akıllı bir tasarımı çığır açan bir teknoloji ve
-                                    kristal netliğinde bir ses kalitesiyle buluşturuyor. Gücünü yeni Apple
-                                    H1 kulaklık çipinden alan AirPods ile şimdi ellerinizi kullanmadan
-                                    yalnızca sesinizle Siri’ye erişebilirsiniz.
-                                </Typography>
-                                <Divider style={{ margin: 10}}/>
-                                    <Typography variant="h6" color="text.secondary" component="div">
-                                        3000 TL
-                                    </Typography>
-                            </CardContent>
-                        </Box>
-                        <CardHeader
-                            action={
-                                <Grid container>
-                                    <Grid item >
-                                        <Tooltip title="Request">
-                                            <IconButton>
-                                                <SendIcon/>
-                                            </IconButton> 
-                                        </Tooltip> 
-                                    </Grid>
-                                    <Grid item >
-                                        <Tooltip title="Remove">
-                                            <IconButton>
-                                                <RemoveCircleIcon/>
-                                            </IconButton> 
-                                        </Tooltip> 
-                                    </Grid>
-                                </Grid>
-                            }
-                        />
-                    </Card>      
-                </Grid>   
+                    </Card> 
+                  ))}
+                </Grid>  
+                : <Card sx={{ marginTop: 30, minWidth: 100, backgroundColor:"#f5f5f5"}}>
+                    <CardContent>
+                        <Typography sx={{ fontSize: 40, marginTop: 3}} color="text.secondary" gutterBottom>
+                            You haven't added any products your cart yet!
+                        </Typography>
+                    </CardContent>
+                  </Card> } 
             </Grid>
         </div>
     )

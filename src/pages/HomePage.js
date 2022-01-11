@@ -9,6 +9,8 @@ import { useSnackbar} from "notistack";
 
 function HomePage() {
 
+    const { enqueueSnackbar } = useSnackbar();
+
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
@@ -16,8 +18,30 @@ function HomePage() {
             .then((res) => {
                 setProducts(res.data)
             })
+            
     }, []);
 
+    const onClick = (productId) => {
+
+        axios   
+            .post("carts/addToCart", {
+                "userId": localStorage.getItem("currentUser"),
+                "productId": productId
+            })
+            .then(() => {
+                enqueueSnackbar(
+                  "Product Added Successfully",
+                  {
+                    variant: "success",
+                  }
+                );
+              })
+              .catch((err) =>
+                   enqueueSnackbar("Something Went Wrong", {
+                     variant: "error",
+                   })
+                );
+    }
 
     return (
         <>
@@ -62,7 +86,7 @@ function HomePage() {
                                         <Grid item >
                                             <Tooltip title="Add To Cart">
                                                 <IconButton>
-                                                    <AddCircleIcon/>
+                                                    <AddCircleIcon onClick={() => onClick(product.id)} />
                                                 </IconButton> 
                                             </Tooltip> 
                                         </Grid>
