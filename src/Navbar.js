@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {React, useEffect, useState} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import EmailIcon from '@mui/icons-material/Email';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Badge from '@mui/material/Badge';
+import axios from 'axios';
 
 const theme = createTheme({
   typography: {
@@ -23,6 +24,15 @@ const theme = createTheme({
 
 
 function Navbar() {
+
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    axios.get("request/getUserMessages?userId=" +localStorage.getItem("currentUser"))
+        .then((res) => {
+            setMessages(res.data);
+        })
+}, []);
 
   const onClick = () => {
     localStorage.removeItem("currentUser")
@@ -72,7 +82,7 @@ function Navbar() {
                 </Grid>          
             </Grid>
             <Link to="mail-box">
-              <Button variant="inherit" startIcon={<Badge badgeContent={4} color='secondary'><EmailIcon/></Badge>} sx={{ color: "white"}} >Inbox</Button>
+              <Button variant="inherit" startIcon={<Badge badgeContent={messages.length} color='secondary'><EmailIcon/></Badge>} sx={{ color: "white"}} >Inbox</Button>
             </Link>
             <Button startIcon={<LogoutIcon />} sx={{ marginLeft: 2}} onClick={onClick} variant="inherit" href="/">
               Logout
